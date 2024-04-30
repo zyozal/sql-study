@@ -218,6 +218,87 @@ SELECT
 FROM tb_sal;
 
 
-SELECT
+SELECT 
+    emp_nm, 
+    direct_manager_emp_no
+FROM tb_emp;
+
+SELECT 
+    COALESCE(null, null, null, 60, null),
+    NULLIF('A', 'A')
+FROM dual;
+
+
+
+
+-- # 널 관련 함수
+-- NVL(expr1, expr2)
+-- expr1: Null을 가질 수 있는 값이나 표현식
+-- expr2: expr1이 Null일 경우 대체할 값
+SELECT 
+    emp_no
+    , emp_nm
+    , direct_manager_emp_no
+FROM tb_emp
+;
+
+SELECT 
+    emp_no
+    , emp_nm
+    , NVL(direct_manager_emp_no, '최상위관리자') AS 관리자
+FROM tb_emp
+;
+
+SELECT 
+     emp_nm,
+     NVL(emp_nm, '존재안함') AS emp_nm,
+     ADDR 
+FROM tb_emp
+WHERE emp_nm = '이정직2';
+
+SELECT 
+    direct_manager_emp_no
+FROM tb_emp
+WHERE emp_nm = '김회장'
+;
+
+
+SELECT 
+    -- emp_nm
+    -- MAX(emp_nm)
+    NVL(emp_nm, '존재안함') AS emp_nm
+    -- NVL(MAX(emp_nm), '존재안함') AS emp_nm
+FROM tb_emp
+WHERE emp_nm = '이승엽';
+
+-- NVL2(expr1, expr2, expr3)
+-- expr1의 값이 Null이 아니면 expr2를 반환, Null이면 expr3를 반환
+SELECT 
     emp_nm,
+    NVL2(direct_manager_emp_no, '일반사원', '회장님') AS 직위
+FROM tb_emp;
+
+-- NULLIF(expr1, expr2)
+-- 두 값이 같으면 NULL리턴, 다르면 expr1 리턴
+SELECT
+    NULLIF('박찬호', '박찬호')
+FROM dual;
+
+SELECT
+    NULLIF('박찬호', '박지성')
+FROM dual;
+
+-- COALESCE(expr1, ...)
+-- 많은 표현식 중 Null이 아닌 값이 최초로 발견되면 해당 값을 리턴
+SELECT 
+    COALESCE(NULL, NULL, 3000, 4000)
+FROM dual;
+
+SELECT 
+    COALESCE(NULL, 5000, NULL, 2000)
+FROM dual;
+
+SELECT 
+    COALESCE(7000, NULL, NULL, 8000)
+FROM dual;
     
